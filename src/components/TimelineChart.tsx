@@ -10,6 +10,16 @@ import {
 } from 'recharts'
 import { sentimentToMoodLabel, type TimelineEntry } from '../api/dashboardApi'
 
+const SAMPLE_ENTRIES: TimelineEntry[] = [
+  { date: '2026-06-07', sentimentScore: -0.2, emotionalThemes: ['anxiety'], triggers: ['Physics Mock'] },
+  { date: '2026-06-08', sentimentScore: -0.55, emotionalThemes: ['stress', 'self-doubt'], triggers: ['parent pressure'] },
+  { date: '2026-06-09', sentimentScore: -0.3, emotionalThemes: ['frustration'], triggers: ['Physics Mock'] },
+  { date: '2026-06-10', sentimentScore: 0.15, emotionalThemes: ['contentment'], triggers: [] },
+  { date: '2026-06-11', sentimentScore: -0.65, emotionalThemes: ['anxiety', 'hopelessness'], triggers: ['mock test'] },
+  { date: '2026-06-12', sentimentScore: -0.4, emotionalThemes: ['stress'], triggers: ['parent pressure'] },
+  { date: '2026-06-13', sentimentScore: -0.25, emotionalThemes: ['self-reflection'], triggers: [] },
+]
+
 interface TimelineChartProps {
   entries: TimelineEntry[]
 }
@@ -31,9 +41,11 @@ function buildChartData(entries: TimelineEntry[]): ChartPoint[] {
 function ChartTooltip({
   active,
   payload,
+  isSample,
 }: {
   active?: boolean
   payload?: Array<{ payload: ChartPoint }>
+  isSample?: boolean
 }) {
   if (!active || !payload?.length) {
     return null
@@ -47,6 +59,9 @@ function ChartTooltip({
       <p className="text-sm text-neutral-600">
         Mood: {sentimentToMoodLabel(point.sentimentScore)}
       </p>
+      {isSample && (
+        <p className="mt-1 text-xs text-neutral-400">Sample data</p>
+      )}
     </div>
   )
 }
@@ -67,18 +82,16 @@ export default function TimelineChart({ entries }: TimelineChartProps) {
     return () => mediaQuery.removeEventListener('change', updateHeight)
   }, [])
 
-  if (entries.length === 0) {
-    return (
-      <p className="glass-card flex h-48 items-center justify-center border-dashed border-white/60 px-4 text-center text-sm text-neutral-600 md:h-64">
-        Keep journaling — your emotional timeline will appear after a few more entries.
-      </p>
-    )
-  }
-
-  const chartData = buildChartData(entries)
+  const isSample = entries.length === 0
+  const chartData = buildChartData(isSample ? SAMPLE_ENTRIES : entries)
 
   return (
     <figure role="img" aria-label="Emotional timeline chart, last 30 days">
+      {isSample && (
+        <p className="mb-2 text-center text-xs text-neutral-400">
+          Sample data — your timeline will appear as you journal
+        </p>
+      )}
       <ResponsiveContainer width="100%" height={chartHeight}>
         <LineChart data={chartData} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
           <XAxis
@@ -95,7 +108,7 @@ export default function TimelineChart({ entries }: TimelineChartProps) {
             tickLine={false}
             width={32}
           />
-          <Tooltip content={<ChartTooltip />} />
+          <Tooltip content={<ChartTooltip isSample={isSample} />} />
           <Line
             type="monotone"
             dataKey="sentimentScore"

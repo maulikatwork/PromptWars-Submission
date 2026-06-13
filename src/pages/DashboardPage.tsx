@@ -8,7 +8,7 @@ import {
   type SummaryResponse,
   type TimelineEntry,
 } from '../api/dashboardApi'
-import InsightCard, { InsightEmptyState } from '../components/InsightCard'
+import InsightCard, { SAMPLE_INSIGHTS } from '../components/InsightCard'
 import SkeletonLoader from '../components/SkeletonLoader'
 import StickyHeader from '../components/StickyHeader'
 import SummaryCard from '../components/SummaryCard'
@@ -178,15 +178,20 @@ export default function DashboardPage() {
               <h2 id="patterns-heading" className="mb-3 text-lg font-semibold text-neutral-800">
                 Your Patterns
               </h2>
-              {data.insights.length > 0 ? (
-                <div className="flex flex-col gap-3">
-                  {data.insights.map((insight) => (
-                    <InsightCard key={insight.id} insight={insight} />
-                  ))}
-                </div>
-              ) : (
-                <InsightEmptyState />
+              {data.insights.length === 0 && (
+                <p className="mb-2 text-center text-xs text-neutral-400">
+                  Sample data — your patterns will surface as you journal more
+                </p>
               )}
+              <div className="flex flex-col gap-3">
+                {(data.insights.length > 0 ? data.insights : SAMPLE_INSIGHTS).map((insight) => (
+                  <InsightCard
+                    key={insight.id}
+                    insight={insight}
+                    isSample={data.insights.length === 0}
+                  />
+                ))}
+              </div>
             </section>
           </div>
         )}
