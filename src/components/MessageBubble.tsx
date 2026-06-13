@@ -17,10 +17,10 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
   return (
     <div className={`flex flex-col ${isUser ? 'items-end' : 'items-start'}`}>
       <div
-        className={`max-w-[85%] animate-fadeInUp px-4 py-3 ${
+        className={`max-w-[85%] animate-fadeInUp px-4 py-3 shadow-glass ${
           isUser
-            ? 'self-end rounded-2xl rounded-tr-sm bg-primary-500 text-white'
-            : 'self-start rounded-2xl rounded-tl-sm bg-primary-50 text-neutral-800'
+            ? 'self-end rounded-2xl rounded-tr-sm bg-gradient-to-br from-primary-500 to-primary-600 text-white'
+            : 'self-start rounded-2xl rounded-tl-sm border border-white/50 bg-white/55 text-neutral-800 backdrop-blur-xl'
         }`}
       >
         <div className={`text-base leading-relaxed ${markdownTextColor}`}>

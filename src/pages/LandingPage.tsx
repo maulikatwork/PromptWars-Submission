@@ -4,24 +4,40 @@ export default function LandingPage() {
   const navigate = useNavigate()
 
   return (
-    <main className="min-h-screen">
-      <div className="mx-auto max-w-2xl px-4 py-8">
-        <header className="mb-8 animate-fadeInUp">
-          <h1 className="text-2xl font-semibold text-neutral-800">Antarman</h1>
-          <p className="mt-2 text-lg font-normal text-neutral-600">
+    <main className="relative min-h-screen overflow-hidden">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 animate-float rounded-full bg-primary-300/40 blur-3xl"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -bottom-32 -right-20 h-80 w-80 animate-float rounded-full bg-accent-300/30 blur-3xl"
+        style={{ animationDelay: '4s' }}
+      />
+
+      <div className="relative mx-auto max-w-2xl px-4 py-10">
+        <header className="mb-10 animate-fadeInUp">
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/50 bg-white/50 px-3 py-1 text-sm font-medium text-primary-700 backdrop-blur-md">
+            <span className="h-2 w-2 rounded-full bg-primary-500" aria-hidden="true" />
+            Calm, private journaling
+          </span>
+          <h1 className="mt-5 bg-gradient-to-br from-primary-700 to-primary-500 bg-clip-text text-4xl font-bold text-transparent">
+            Antarman
+          </h1>
+          <p className="mt-3 text-lg font-normal text-neutral-700">
             A private space to process exam stress
           </p>
         </header>
 
-        <section aria-label="About Antarman" className="mb-6 space-y-4">
-          <div>
+        <section aria-label="About Antarman" className="mb-6 grid gap-4 sm:grid-cols-2">
+          <div className="glass-card animate-fadeInUp p-5">
             <h2 className="text-lg font-semibold text-neutral-800">What this is</h2>
             <p className="mt-2 text-base leading-relaxed text-neutral-700">
               A conversational journaling companion for students preparing for JEE, NEET, CUET,
               CAT, GATE, UPSC, and other high-stakes exams.
             </p>
           </div>
-          <div>
+          <div className="glass-card animate-fadeInUp p-5">
             <h2 className="text-lg font-semibold text-neutral-800">What this is not</h2>
             <p className="mt-2 text-base leading-relaxed text-neutral-700">
               This is not a therapist, doctor, or crisis counselor. It cannot diagnose conditions
@@ -32,7 +48,7 @@ export default function LandingPage() {
 
         <section
           aria-label="Privacy"
-          className="mb-6 rounded-xl border border-primary-200 bg-primary-50 p-4"
+          className="glass-card mb-6 animate-fadeInUp p-5 ring-1 ring-primary-200/60"
         >
           <h2 className="text-lg font-semibold text-neutral-800">Your privacy</h2>
           <p className="mt-2 text-base leading-relaxed text-neutral-700">
@@ -43,7 +59,7 @@ export default function LandingPage() {
 
         <section
           aria-label="Crisis Resources"
-          className="mb-8 rounded-xl border border-primary-200 bg-primary-50 p-4"
+          className="glass-card mb-10 animate-fadeInUp p-5 ring-1 ring-primary-200/60"
         >
           <h2 className="text-lg font-semibold text-neutral-800">Need immediate help?</h2>
           <p className="mt-2 text-base leading-relaxed text-neutral-700">
@@ -58,7 +74,7 @@ export default function LandingPage() {
         <button
           type="button"
           onClick={() => navigate('/journal')}
-          className="min-h-[44px] rounded-xl bg-primary-500 px-6 py-3 font-medium text-white transition hover:bg-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+          className="min-h-[44px] rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 px-7 py-3 font-semibold text-white shadow-glass transition hover:from-primary-600 hover:to-primary-700 hover:shadow-glass-lg active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
         >
           Get Started →
         </button>

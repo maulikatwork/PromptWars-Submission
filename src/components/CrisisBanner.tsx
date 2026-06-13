@@ -11,10 +11,10 @@ export default function CrisisBanner({ distressLevel, onDismiss }: CrisisBannerP
   return (
     <div
       role="alert"
-      className={`border px-4 py-3 ${
+      className={`border-y px-4 py-3 backdrop-blur-xl ${
         distressLevel === 3
-          ? 'border-amber-300 bg-amber-100'
-          : 'border-accent-300 bg-accent-100'
+          ? 'border-amber-300/60 bg-amber-100/80'
+          : 'border-accent-300/60 bg-accent-100/80'
       }`}
     >
       <div className="mx-auto flex max-w-2xl items-start justify-between gap-3">

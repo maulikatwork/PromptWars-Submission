@@ -93,12 +93,12 @@ export default function OnboardingModal({ onComplete }: OnboardingModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex animate-fadeIn items-center justify-center bg-black/30 px-4"
+      className="fixed inset-0 z-50 flex animate-fadeIn items-center justify-center bg-primary-900/20 px-4 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       aria-labelledby="onboarding-title"
     >
-      <div className="mx-4 w-full max-w-sm animate-slideUp rounded-2xl bg-white p-6 shadow-xl">
+      <div className="mx-4 w-full max-w-sm animate-slideUp rounded-2xl border border-white/60 bg-white/70 p-6 shadow-glass-lg backdrop-blur-2xl">
         <h2 id="onboarding-title" className="text-xl font-semibold text-neutral-900">
           Tell us a little about your prep
         </h2>
@@ -124,7 +124,7 @@ export default function OnboardingModal({ onComplete }: OnboardingModalProps) {
                 setNameError(null)
               }}
               maxLength={60}
-              className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 text-base focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+              className="mt-1 w-full rounded-lg border border-white/60 bg-white/70 px-3 py-2 text-base backdrop-blur-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             />
             {nameError && (
               <span className="mt-1 block text-sm text-red-600" role="alert">
@@ -143,7 +143,7 @@ export default function OnboardingModal({ onComplete }: OnboardingModalProps) {
               onChange={(event) =>
                 setExam(event.target.value as (typeof EXAM_OPTIONS)[number] | '')
               }
-              className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 text-base focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+              className="mt-1 w-full rounded-lg border border-white/60 bg-white/70 px-3 py-2 text-base backdrop-blur-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             >
               <option value="" disabled>
                 Select your exam
@@ -168,7 +168,7 @@ export default function OnboardingModal({ onComplete }: OnboardingModalProps) {
                 setTargetDate(event.target.value)
                 setTargetDateError(null)
               }}
-              className="mt-1 w-full rounded-lg border border-neutral-300 px-3 py-2 text-base focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+              className="mt-1 w-full rounded-lg border border-white/60 bg-white/70 px-3 py-2 text-base backdrop-blur-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             />
             {targetDateError && (
               <span className="mt-1 block text-sm text-red-600" role="alert">
@@ -186,7 +186,7 @@ export default function OnboardingModal({ onComplete }: OnboardingModalProps) {
           <button
             type="submit"
             disabled={!isFormValid || isSubmitting}
-            className="min-h-[44px] w-full rounded-xl bg-primary-500 px-4 py-3 text-base font-medium text-white transition hover:bg-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 disabled:cursor-not-allowed disabled:opacity-60"
+            className="min-h-[44px] w-full rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 px-4 py-3 text-base font-semibold text-white shadow-glass transition hover:from-primary-600 hover:to-primary-700 active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {isSubmitting ? 'Saving...' : 'Continue'}
           </button>

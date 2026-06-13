@@ -5,17 +5,18 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Warm, calming terracotta-orange — soft enough to soothe, deep enough to read.
         primary: {
-          50: '#f4f7f4',
-          100: '#e6ede6',
-          200: '#ccdccc',
-          300: '#a8c2a8',
-          400: '#7ea07e',
-          500: '#5c825c',
-          600: '#496849',
-          700: '#3a533a',
-          800: '#2f432f',
-          900: '#273827',
+          50: '#fdf5ef',
+          100: '#fbe7d6',
+          200: '#f5ccaa',
+          300: '#eeac79',
+          400: '#e68a4c',
+          500: '#db6f30',
+          600: '#c0561f',
+          700: '#9c4419',
+          800: '#7e3819',
+          900: '#682f18',
         },
         neutral: {
           50: '#fafaf9',
@@ -34,6 +35,10 @@ export default {
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
       },
+      boxShadow: {
+        glass: '0 8px 32px rgba(192, 86, 31, 0.10)',
+        'glass-lg': '0 16px 48px rgba(192, 86, 31, 0.16)',
+      },
       keyframes: {
         fadeIn: {
           from: { opacity: '0' },
@@ -51,12 +56,17 @@ export default {
           from: { backgroundPosition: '-200% 0' },
           to: { backgroundPosition: '200% 0' },
         },
+        float: {
+          '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
+          '50%': { transform: 'translate(0, -24px) scale(1.05)' },
+        },
       },
       animation: {
         fadeIn: 'fadeIn 0.2s ease-out',
         fadeInUp: 'fadeInUp 0.2s ease-out',
         slideUp: 'slideUp 0.25s ease-out',
         shimmer: 'shimmer 1.5s infinite',
+        float: 'float 16s ease-in-out infinite',
       },
     },
   },

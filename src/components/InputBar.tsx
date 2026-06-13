@@ -121,7 +121,7 @@ export default function InputBar({ inputText, onInputChange, onSend, isLoading }
   }
 
   return (
-    <div className="sticky bottom-0 border-t border-neutral-200 bg-white px-4 pt-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]">
+    <div className="sticky bottom-0 border-t glass-bar px-4 pt-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]">
       <div className="mx-auto flex max-w-2xl items-end gap-2">
         <label htmlFor="journal-input" className="sr-only">
           Journal message
@@ -135,7 +135,7 @@ export default function InputBar({ inputText, onInputChange, onSend, isLoading }
           onKeyDown={handleKeyDown}
           disabled={isLoading}
           placeholder="What's on your mind?"
-          className="max-h-[120px] min-h-[44px] flex-1 resize-none rounded-xl border border-neutral-200 px-3 py-2 text-base text-neutral-800 placeholder:text-neutral-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 disabled:opacity-60"
+          className="max-h-[120px] min-h-[44px] flex-1 resize-none rounded-xl border border-white/60 bg-white/70 px-3 py-2 text-base text-neutral-800 backdrop-blur-md placeholder:text-neutral-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 disabled:opacity-60"
         />
 
         {isSupported && (
@@ -144,7 +144,7 @@ export default function InputBar({ inputText, onInputChange, onSend, isLoading }
             onClick={handleMicClick}
             disabled={isLoading}
             aria-label={isListening ? 'Stop voice input' : 'Start voice input'}
-            className={`flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-xl border border-neutral-200 text-neutral-600 transition hover:bg-neutral-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 disabled:opacity-60 ${
+            className={`flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-xl border border-white/60 bg-white/60 text-primary-600 backdrop-blur-md transition hover:bg-white/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 disabled:opacity-60 ${
               isListening ? 'animate-pulse ring-2 ring-red-400' : ''
             }`}
           >
@@ -157,7 +157,7 @@ export default function InputBar({ inputText, onInputChange, onSend, isLoading }
           onClick={onSend}
           disabled={!canSend}
           aria-label="Send message"
-          className="flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-xl bg-primary-500 text-white transition-transform duration-75 hover:bg-primary-600 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 disabled:cursor-not-allowed disabled:opacity-60"
+          className="flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 text-white shadow-glass transition-transform duration-75 hover:from-primary-600 hover:to-primary-700 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 disabled:cursor-not-allowed disabled:opacity-60"
         >
           <SendIcon />
         </button>

@@ -8,7 +8,7 @@ export default function SkeletonLoader({ rows = 4 }: SkeletonLoaderProps) {
       {Array.from({ length: rows }, (_, index) => (
         <div
           key={index}
-          className="h-24 animate-shimmer rounded-xl bg-gradient-to-r from-neutral-200 via-neutral-100 to-neutral-200 bg-[length:200%_100%]"
+          className="h-24 animate-shimmer rounded-xl border border-white/40 bg-gradient-to-r from-primary-100/60 via-white/70 to-primary-100/60 bg-[length:200%_100%] backdrop-blur-md"
         />
       ))}
     </div>

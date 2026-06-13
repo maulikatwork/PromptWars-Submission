@@ -80,7 +80,7 @@ export default function DashboardPage() {
         </p>
         <Link
           to="/journal"
-          className="rounded-xl bg-primary-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+          className="rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 px-5 py-3 text-sm font-semibold text-white shadow-glass transition hover:from-primary-600 hover:to-primary-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
         >
           Go to Journal
         </Link>
@@ -91,14 +91,14 @@ export default function DashboardPage() {
   const showEmptyState = data !== null && data.summary.totalEntries < MIN_ENTRIES_FOR_INSIGHTS
 
   return (
-    <div className="flex min-h-dvh flex-col bg-neutral-50">
+    <div className="flex min-h-dvh flex-col">
       <StickyHeader studentName={profile.name} />
 
       <main className="mx-auto w-full max-w-2xl flex-1 px-4 py-6">
         <button
           type="button"
           onClick={handleBack}
-          className="mb-4 inline-flex min-h-[44px] items-center gap-2 rounded-lg px-2 py-1 text-sm font-medium text-neutral-700 transition hover:bg-neutral-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+          className="mb-4 inline-flex min-h-[44px] items-center gap-2 rounded-lg px-2 py-1 text-sm font-medium text-primary-700 transition hover:bg-primary-100/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -119,12 +119,12 @@ export default function DashboardPage() {
         {isLoading && <SkeletonLoader rows={5} />}
 
         {!isLoading && loadError && (
-          <div className="rounded-xl border border-red-200 bg-red-50 p-5 text-center" role="alert">
+          <div className="rounded-xl border border-red-200/70 bg-red-50/80 p-5 text-center backdrop-blur-md" role="alert">
             <p className="text-sm text-red-700">{loadError}</p>
             <button
               type="button"
               onClick={() => void loadDashboard()}
-              className="mt-4 rounded-lg bg-primary-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+              className="mt-4 rounded-lg bg-gradient-to-br from-primary-500 to-primary-600 px-4 py-2 text-sm font-semibold text-white shadow-glass transition hover:from-primary-600 hover:to-primary-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             >
               Try again
             </button>
@@ -136,7 +136,7 @@ export default function DashboardPage() {
             <SummaryCard summary={data.summary} />
 
             {showEmptyState && (
-              <section className="rounded-xl border border-dashed border-neutral-300 bg-white p-6 text-center">
+              <section className="glass-card border-dashed border-white/60 p-6 text-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -160,7 +160,7 @@ export default function DashboardPage() {
                 </p>
                 <Link
                   to="/journal"
-                  className="mt-4 inline-block rounded-lg bg-primary-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                  className="mt-4 inline-block rounded-lg bg-gradient-to-br from-primary-500 to-primary-600 px-4 py-2 text-sm font-semibold text-white shadow-glass transition hover:from-primary-600 hover:to-primary-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                 >
                   Back to Journal
                 </Link>

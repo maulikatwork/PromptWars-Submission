@@ -2,8 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-neutral-50 text-neutral-900 font-sans antialiased leading-relaxed;
+@layer base {
+  body {
+    @apply text-neutral-800 font-sans antialiased leading-relaxed;
+    min-height: 100dvh;
+    background-color: #fdf6f0;
+    /* Soft, calming wash of warm peach and amber that glass surfaces blur over. */
+    background-image:
+      radial-gradient(at 12% 18%, rgba(238, 172, 121, 0.38) 0px, transparent 55%),
+      radial-gradient(at 88% 8%, rgba(252, 211, 170, 0.45) 0px, transparent 50%),
+      radial-gradient(at 78% 82%, rgba(219, 111, 48, 0.22) 0px, transparent 55%),
+      radial-gradient(at 18% 92%, rgba(250, 226, 200, 0.5) 0px, transparent 55%);
+    background-attachment: fixed;
+  }
+}
+
+@layer components {
+  /* Frosted glass surface — the core building block of the redesigned UI. */
+  .glass-card {
+    @apply rounded-2xl border border-white/50 bg-white/55 shadow-glass backdrop-blur-xl;
+  }
+
+  .glass-bar {
+    @apply border-white/40 bg-white/60 backdrop-blur-xl;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

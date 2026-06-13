@@ -13,7 +13,7 @@ export default function InsightCard({ insight }: InsightCardProps) {
   const confidencePercent = Math.round(insight.confidence * 100)
 
   return (
-    <article className="rounded-xl border border-neutral-200 bg-white p-4 shadow-sm">
+    <article className="glass-card p-4 transition hover:shadow-glass-lg">
       <p className="text-sm font-medium text-neutral-500">Trigger: {insight.triggerLabel}</p>
       <h3 className="mt-1 text-base font-semibold text-neutral-800">{insight.pattern}</h3>
 
@@ -43,7 +43,7 @@ export default function InsightCard({ insight }: InsightCardProps) {
 
 export function InsightEmptyState() {
   return (
-    <p className="rounded-xl border border-dashed border-neutral-300 bg-white p-6 text-center text-sm text-neutral-600">
+    <p className="glass-card border-dashed border-white/60 p-6 text-center text-sm text-neutral-600">
       Your patterns will surface here as you journal more.
     </p>
   )

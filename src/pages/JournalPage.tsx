@@ -131,7 +131,7 @@ export default function JournalPage() {
   }
 
   return (
-    <div className="flex h-dvh flex-col bg-neutral-50">
+    <div className="flex h-dvh flex-col">
       {profile && <StickyHeader studentName={profile.name} />}
 
       <main className="flex-1 overflow-y-auto">

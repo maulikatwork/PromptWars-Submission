@@ -42,7 +42,7 @@ function ChartTooltip({
   const point = payload[0].payload
 
   return (
-    <div className="rounded-lg border border-neutral-200 bg-white px-3 py-2 shadow-sm">
+    <div className="rounded-lg border border-white/60 bg-white/80 px-3 py-2 shadow-glass backdrop-blur-md">
       <p className="text-sm font-medium text-neutral-800">{point.label}</p>
       <p className="text-sm text-neutral-600">
         Mood: {sentimentToMoodLabel(point.sentimentScore)}
@@ -69,7 +69,7 @@ export default function TimelineChart({ entries }: TimelineChartProps) {
 
   if (entries.length < 3) {
     return (
-      <p className="flex h-48 items-center justify-center rounded-xl border border-dashed border-neutral-300 bg-white px-4 text-center text-sm text-neutral-600 md:h-64">
+      <p className="glass-card flex h-48 items-center justify-center border-dashed border-white/60 px-4 text-center text-sm text-neutral-600 md:h-64">
         Keep journaling — your emotional timeline will appear after a few more entries.
       </p>
     )
@@ -99,9 +99,9 @@ export default function TimelineChart({ entries }: TimelineChartProps) {
           <Line
             type="monotone"
             dataKey="sentimentScore"
-            stroke="#5c825c"
+            stroke="#db6f30"
             strokeWidth={2}
-            dot={{ r: 4, fill: '#5c825c' }}
+            dot={{ r: 4, fill: '#db6f30' }}
             activeDot={{ r: 5 }}
           />
         </LineChart>

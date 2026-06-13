@@ -15,7 +15,7 @@ export default function SummaryCard({ summary }: SummaryCardProps) {
   return (
     <section
       aria-label="Journal summary"
-      className="rounded-2xl border border-primary-200 bg-primary-50 p-5"
+      className="glass-card p-5 ring-1 ring-primary-200/50"
     >
       <div className="grid grid-cols-2 gap-4">
         <div>
