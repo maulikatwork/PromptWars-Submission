@@ -1,0 +1,61 @@
+---
+description: PromptWars judging priorities and engineering guardrails
+alwaysApply: true
+---
+
+# PromptWars Competition Rule
+
+Optimize for PromptWars scoring across all six criteria. Prioritize **Problem Statement Alignment** and **Code Quality** first, then **Security** and **Efficiency**, and preserve points with **Testing** and **Accessibility**.
+
+## 1) Alignment First (High Impact)
+- Re-read the problem statement before coding; every change must map to an explicit requirement.
+- Do not add unrequested features (no scope creep or gold-plating).
+- Match required output format exactly (UI/API/CLI/data shape).
+- If requirements are ambiguous, pick the most useful interpretation and document one brief assumption comment.
+- Validate all acceptance criteria before declaring completion.
+
+## 2) Code Quality (High Impact)
+- Keep functions single-purpose and files focused; remove dead code, unused imports, and commented-out blocks.
+- Use explicit, descriptive names (`parseInvoiceDate`, `isLoading`, `hasError`, `canSubmit`).
+- Prefer clarity over cleverness; make behavior understandable without execution.
+- Comments explain **why**, not **what**; avoid task/PR references in code comments.
+- Follow project formatter/linter conventions consistently.
+
+## 3) Security (Medium Impact)
+- Treat all external input as untrusted; validate/sanitize at boundaries.
+- Never build SQL/shell/HTML via string concatenation; use parameterized/safe APIs.
+- Never commit secrets; use `.env` and provide `.env.example` placeholders.
+- Apply least privilege and avoid leaking stack traces/internal paths in responses.
+- Prefer established auth/crypto libraries; never roll custom crypto.
+
+## 4) Efficiency (Medium Impact)
+- Choose appropriate data structures/algorithms (e.g., `Map`/`Set` for frequent lookups).
+- Avoid obvious quadratic work when linear or `n log n` is practical.
+- Avoid redundant I/O/network calls; batch requests and cache repeated expensive work.
+- Keep UI rendering efficient (avoid needless re-renders; avoid blocking main thread).
+- Import only what is needed; keep production bundles lean.
+
+## 5) Testing (Low Impact, Required)
+- Add at least one focused unit test for each non-trivial utility/domain behavior.
+- Test correctness and edge cases, not implementation details.
+- Keep tests runnable with one command and passing before completion.
+- Prefer light mocking; use real integrations when practical.
+
+## 6) Accessibility (Low Impact, Tiebreaker)
+- Ensure full keyboard operability for interactive elements.
+- Provide meaningful `alt` text, input labels, semantic HTML, and visible focus states.
+- Meet contrast expectations (4.5:1 normal text, 3:1 large text).
+- Use ARIA only when native semantics are insufficient.
+
+## Always-Enforced Guardrails
+- Raise conflicts if requested work would reduce problem-statement alignment.
+- Avoid premature abstraction; abstract only after clear repetition.
+- Do not leave `TODO`/`FIXME`/stubs in committed competition code unless explicitly deferred by requirements.
+- Keep each step commit-ready and non-broken.
+- Verify by running relevant app/tests before reporting done.
+- Prefer secure, efficient implementations over convenience shortcuts.
+
+## Quick Examples
+- Good: `db.query("SELECT * FROM users WHERE id = ?", [userId])`
+- Bad: `db.query("SELECT * FROM users WHERE id = " + userId)`
+- Good test naming: `it("returns empty array when input is null", ...)`
