@@ -4,16 +4,22 @@ import cors from 'cors'
 import path from 'path'
 import { connectDatabase } from './db/mongoose'
 import './cache/redis'
+import { errorHandler } from './middleware/errorHandler'
 import healthRouter from './routes/health'
 import usersRouter from './routes/users'
+import journalsRouter from './routes/journals'
+import insightsRouter from './routes/insights'
 
 const app = express()
+const PORT = process.env.PORT || 3001
 
 app.use(express.json({ limit: '10kb' }))
 app.use(cors({ origin: 'http://localhost:5173' }))
 
 app.use('/api', healthRouter)
 app.use('/api', usersRouter)
+app.use('/api', journalsRouter)
+app.use('/api', insightsRouter)
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../../dist')))
@@ -22,10 +28,11 @@ if (process.env.NODE_ENV === 'production') {
   })
 }
 
+app.use(errorHandler)
+
 async function start() {
   await connectDatabase()
-  const port = Number(process.env.PORT) || 3001
-  app.listen(port, '0.0.0.0', () => console.log(`Server running on port ${port}`))
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
 }
 
 start().catch((error) => {

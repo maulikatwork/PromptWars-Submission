@@ -1,47 +1,71 @@
 import { Router } from 'express'
+import { isValidExam } from '../constants/exams'
+import { asyncHandler } from '../middleware/asyncHandler'
+import { validateOptionalFutureDate, validateRequiredTrimmedString } from '../middleware/validate'
 import { validateUserId } from '../middleware/validateUserId'
-
-const EXAM_OPTIONS = ['JEE', 'NEET', 'CUET', 'CAT', 'GATE', 'UPSC', 'Other'] as const
-
-type ExamOption = (typeof EXAM_OPTIONS)[number]
-
-interface UserProfilePayload {
-  name: string
-  exam: ExamOption
-  targetDate?: string
-}
+import { User } from '../models/User'
+import { formatUserProfile } from '../utils/serialize'
 
 const router = Router()
 
-router.post('/users', validateUserId, (req, res) => {
-  const { name, exam, targetDate } = req.body as Partial<UserProfilePayload>
+router.post(
+  '/users',
+  validateUserId,
+  asyncHandler(async (req, res) => {
+    const userId = req.userId!
+    const { name, exam, targetDate } = req.body as {
+      name?: unknown
+      exam?: unknown
+      targetDate?: unknown
+    }
 
-  if (!name || typeof name !== 'string' || name.trim().length === 0 || name.length > 60) {
-    res.status(400).json({ error: 'Name is required and must be 60 characters or fewer' })
-    return
-  }
-
-  if (!exam || !EXAM_OPTIONS.includes(exam)) {
-    res.status(400).json({ error: 'A valid exam selection is required' })
-    return
-  }
-
-  if (targetDate) {
-    const parsedDate = new Date(targetDate)
-
-    if (Number.isNaN(parsedDate.getTime()) || parsedDate <= new Date()) {
-      res.status(400).json({ error: 'Target date must be a valid future date' })
+    const nameResult = validateRequiredTrimmedString(name, 'Name', 60)
+    if (!nameResult.ok) {
+      res.status(400).json(nameResult.response)
       return
     }
-  }
 
-  const profile = {
-    name: name.trim(),
-    exam,
-    targetDate: targetDate ?? null,
-  }
+    if (!isValidExam(exam)) {
+      res.status(400).json({ error: 'Invalid exam type', field: 'exam' })
+      return
+    }
 
-  res.status(201).json({ profile })
-})
+    const targetDateResult = validateOptionalFutureDate(targetDate)
+    if (!targetDateResult.ok) {
+      res.status(400).json(targetDateResult.response)
+      return
+    }
+
+    const existingUser = await User.findOne({ userId })
+
+    const user = await User.findOneAndUpdate(
+      { userId },
+      {
+        userId,
+        name: nameResult.value,
+        exam,
+        targetDate: targetDateResult.value,
+      },
+      { upsert: true, new: true, runValidators: true },
+    )
+
+    res.status(existingUser ? 200 : 201).json({ profile: formatUserProfile(user) })
+  }),
+)
+
+router.get(
+  '/users/me',
+  validateUserId,
+  asyncHandler(async (req, res) => {
+    const user = await User.findOne({ userId: req.userId })
+
+    if (!user) {
+      res.status(404).json({ error: 'User not found' })
+      return
+    }
+
+    res.json({ profile: formatUserProfile(user) })
+  }),
+)
 
 export default router

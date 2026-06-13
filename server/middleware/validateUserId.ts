@@ -17,5 +17,6 @@ export function validateUserId(req: Request, res: Response, next: NextFunction):
     return
   }
 
+  req.userId = userId
   next()
 }
