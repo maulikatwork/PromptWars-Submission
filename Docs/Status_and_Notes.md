@@ -38,8 +38,17 @@
 - Crisis guardrail in `server/llm/guardrail.ts`: appends Tele-MANAS/KIRAN block at `distressLevel: 3`; logs moderate distress at level 2
 - `POST /api/chat` in `server/routes/chat.ts`: validates `rawText`, loads user profile, creates Journal, runs pipeline, returns `{ reply, entryId, distressLevel }`
 - DeepSeek failures mapped to `503 { error: "AI service temporarily unavailable" }` — no internal details exposed
-- Conversation history placeholder (`[]`) — Redis session wiring deferred to Phase 4
 - Unit tests: 9 new tests (JSON parse fallback, sentiment/distress clamping, crisis block injection)
+
+## Phase 4 — Session Memory & Context (Done)
+
+- Session context in `server/cache/sessionContext.ts`: Redis list (`LPUSH` + `LTRIM` pipeline), 20-message cap, 4-hour TTL, chronological history for LLM
+- Profile cache in `server/cache/profileCache.ts`: cache-aside with 24-hour TTL; Redis read/write failures fall through to MongoDB
+- Rate limiter in `server/cache/rateLimiter.ts`: atomic `INCR` + 60s window; 20 requests/minute per user
+- `POST /api/chat` updated: rate limit → cached profile → session history → pipeline → guardrail → append user/assistant messages after reply
+- `POST /api/users` calls `invalidateProfileCache` after successful upsert so next chat re-reads MongoDB
+- `429` with `Retry-After: 60` when rate limit exceeded
+- Unit tests: 12 new tests (session trim/order, malformed entry skip, profile cache hit/miss/fallback, rate limit blocking)
 
 ## Validation Notes
 
@@ -48,10 +57,12 @@
 - DeepSeek health requires a valid `DEEPSEEK_API_KEY` in `.env` (placeholder fails as expected)
 - Temp MongoDB container (`wellness-mongo-test`) started on port 27017 for local dev
 - `npm run lint` passes with zero errors
-- `npm test` passes (29 tests)
+- `npm test` passes (41 tests)
 - `npm run build` succeeds
 - Live `POST /api/chat` testing requires valid `DEEPSEEK_API_KEY` and an onboarded user (`POST /api/users` first)
+- Multi-turn context: second chat message should reference prior turn without re-stating it (verify with Redis running)
+- Rate limit: >20 requests/minute from same `X-User-ID` returns `429` with `Retry-After: 60`
 
 ## Next
 
-- Phase 4: Session Memory (Redis conversation history for multi-turn chat)
+- Phase 5: Conversational Interface (full chat UI with text + voice input, mobile-first)

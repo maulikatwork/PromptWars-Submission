@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import { invalidateProfileCache } from '../cache/profileCache'
 import { isValidExam } from '../constants/exams'
 import { asyncHandler } from '../middleware/asyncHandler'
 import { validateOptionalFutureDate, validateRequiredTrimmedString } from '../middleware/validate'
@@ -48,6 +49,8 @@ router.post(
       },
       { upsert: true, new: true, runValidators: true },
     )
+
+    await invalidateProfileCache(userId)
 
     res.status(existingUser ? 200 : 201).json({ profile: formatUserProfile(user) })
   }),
