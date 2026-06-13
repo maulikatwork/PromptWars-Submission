@@ -1,5 +1,5 @@
 {
-  "name": "genai-wellness-tracker",
+  "name": "antarman",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -21,8 +21,10 @@
     "openai": "^4.86.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-markdown": "^10.1.0",
     "react-router-dom": "^7.3.0",
-    "recharts": "^3.8.1"
+    "recharts": "^3.8.1",
+    "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.9.1",

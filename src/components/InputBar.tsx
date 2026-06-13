@@ -121,7 +121,7 @@ export default function InputBar({ inputText, onInputChange, onSend, isLoading }
   }
 
   return (
-    <div className="sticky bottom-0 border-t border-neutral-200 bg-white px-4 py-3 pb-[env(safe-area-inset-bottom)]">
+    <div className="sticky bottom-0 border-t border-neutral-200 bg-white px-4 pt-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]">
       <div className="mx-auto flex max-w-2xl items-end gap-2">
         <label htmlFor="journal-input" className="sr-only">
           Journal message

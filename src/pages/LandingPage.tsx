@@ -7,13 +7,13 @@ export default function LandingPage() {
     <main className="min-h-screen">
       <div className="mx-auto max-w-2xl px-4 py-8">
         <header className="mb-8 animate-fadeInUp">
-          <h1 className="text-2xl font-semibold text-neutral-800">Wellness Companion</h1>
+          <h1 className="text-2xl font-semibold text-neutral-800">Antarman</h1>
           <p className="mt-2 text-lg font-normal text-neutral-600">
             A private space to process exam stress
           </p>
         </header>
 
-        <section aria-label="About this companion" className="mb-6 space-y-4">
+        <section aria-label="About Antarman" className="mb-6 space-y-4">
           <div>
             <h2 className="text-lg font-semibold text-neutral-800">What this is</h2>
             <p className="mt-2 text-base leading-relaxed text-neutral-700">

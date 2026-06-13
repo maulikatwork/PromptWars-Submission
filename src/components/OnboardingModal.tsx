@@ -103,7 +103,7 @@ export default function OnboardingModal({ onComplete }: OnboardingModalProps) {
           Tell us a little about your prep
         </h2>
         <p className="mt-2 text-base text-neutral-600">
-          This helps the companion stay relevant to your exam journey.
+          This helps Antarman stay relevant to your exam journey.
         </p>
         <p className="mt-1 text-sm text-neutral-500">
           Your data is stored anonymously. No account needed.

@@ -1,6 +1,6 @@
 # Privacy Policy
 
-This app is an anonymous academic wellness companion. We collect only what is needed to help you track your emotional journey during exam preparation.
+Antarman is an anonymous academic support companion. We collect only what is needed to help you track your emotional journey during exam preparation.
 
 ## What We Store
 

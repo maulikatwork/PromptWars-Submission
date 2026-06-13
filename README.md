@@ -1,4 +1,4 @@
-# GenAI Academic Wellness Companion
+# Antarman
 
 A private AI confidant for students preparing for high-stakes Indian competitive exams.
 

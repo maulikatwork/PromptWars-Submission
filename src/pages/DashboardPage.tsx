@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   fetchInsights,
   fetchSummary,
@@ -26,6 +26,7 @@ interface DashboardData {
 
 export default function DashboardPage() {
   const { ensureUserId } = useUser()
+  const navigate = useNavigate()
   const profile = readStoredProfile()
   const [data, setData] = useState<DashboardData | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -62,6 +63,15 @@ export default function DashboardPage() {
     void loadDashboard()
   }, [loadDashboard])
 
+  const handleBack = useCallback(() => {
+    if (window.history.length > 1) {
+      navigate(-1)
+      return
+    }
+
+    navigate('/journal')
+  }, [navigate])
+
   if (!profile) {
     return (
       <main className="flex min-h-dvh flex-col items-center justify-center gap-4 px-4">
@@ -85,6 +95,27 @@ export default function DashboardPage() {
       <StickyHeader studentName={profile.name} />
 
       <main className="mx-auto w-full max-w-2xl flex-1 px-4 py-6">
+        <button
+          type="button"
+          onClick={handleBack}
+          className="mb-4 inline-flex min-h-[44px] items-center gap-2 rounded-lg px-2 py-1 text-sm font-medium text-neutral-700 transition hover:bg-neutral-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="h-4 w-4"
+            aria-hidden="true"
+          >
+            <path d="m15 18-6-6 6-6" />
+          </svg>
+          Back
+        </button>
+
         {isLoading && <SkeletonLoader rows={5} />}
 
         {!isLoading && loadError && (

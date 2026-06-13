@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { getCachedProfile } from '../cache/profileCache'
-import { checkRateLimit } from '../cache/rateLimiter'
+import { checkRateLimit, RATE_LIMIT_CONFIG } from '../cache/rateLimiter'
 import { appendToSession, getSessionContext } from '../cache/sessionContext'
 import { asyncHandler } from '../middleware/asyncHandler'
 import { validateRequiredTrimmedString } from '../middleware/validate'
@@ -19,9 +19,12 @@ router.post(
     const userId = req.userId!
 
     if (!(await checkRateLimit(userId))) {
-      res.status(429).set('Retry-After', '60').json({
-        error: 'Too many requests. Please wait a moment.',
-      })
+      res
+        .status(429)
+        .set('Retry-After', String(RATE_LIMIT_CONFIG.windowSeconds))
+        .json({
+          error: 'Too many requests. Please wait a moment.',
+        })
       return
     }
 

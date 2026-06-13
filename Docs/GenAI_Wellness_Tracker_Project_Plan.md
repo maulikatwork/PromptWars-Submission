@@ -1,4 +1,4 @@
-# Project Plan: GenAI Academic Wellness Companion
+# Project Plan: Antarman
 
 > **Context:** Submission for the Prompt War Challenge (Google for Developers × H2S × Build with AI)
 > **Core Objective:** Build a Generative AI-powered solution to monitor and improve the mental well-being of students preparing for high-stakes Indian competitive exams (JEE, NEET, CUET, CAT, GATE, UPSC).
