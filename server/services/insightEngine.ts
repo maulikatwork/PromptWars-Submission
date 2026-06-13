@@ -2,9 +2,10 @@ import { Insight } from '../models/Insight'
 import { Journal } from '../models/Journal'
 
 export const INSIGHT_WINDOW = 30
-export const MIN_CONFIDENCE = 0.4
+export const MIN_CONFIDENCE = 0.15
+export const MIN_SUPPORTING_COUNT = 2
 export const STALE_DAYS = 30
-export const MEAN_SENTIMENT_THRESHOLD = -0.3
+export const MEAN_SENTIMENT_THRESHOLD = -0.1
 
 export interface JournalEntryForAnalysis {
   sentimentScore: number | null
@@ -99,7 +100,7 @@ export function analyzeTriggerCorrelations(
     const meanSentiment = scores.reduce((sum, score) => sum + score, 0) / scores.length
     const supportingCount = matching.length
 
-    if (meanSentiment >= MEAN_SENTIMENT_THRESHOLD || supportingCount < 2) {
+    if (meanSentiment >= MEAN_SENTIMENT_THRESHOLD || supportingCount < MIN_SUPPORTING_COUNT) {
       continue
     }
 

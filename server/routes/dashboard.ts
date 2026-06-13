@@ -75,7 +75,7 @@ router.get(
   asyncHandler(async (req, res) => {
     const insights = await Insight.find({
       userId: req.userId,
-      confidence: { $gte: 0.4 },
+      confidence: { $gte: 0.15 },
       supportingCount: { $gte: 2 },
     })
       .sort({ confidence: -1 })
