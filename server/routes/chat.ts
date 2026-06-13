@@ -8,6 +8,7 @@ import { validateUserId } from '../middleware/validateUserId'
 import { applyDistressGuardrail } from '../llm/guardrail'
 import { processJournalEntry } from '../llm/pipeline'
 import { Journal } from '../models/Journal'
+import { generateInsights } from '../services/insightEngine'
 
 const router = Router()
 
@@ -71,6 +72,10 @@ router.post(
 
       await appendToSession(userId, { role: 'user', content: rawTextResult.value })
       await appendToSession(userId, { role: 'assistant', content: reply })
+
+      generateInsights(userId).catch((error) => {
+        console.error('Insight generation failed:', error)
+      })
 
       res.json({
         reply,

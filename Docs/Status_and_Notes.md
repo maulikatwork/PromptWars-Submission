@@ -63,6 +63,22 @@
 - Shared types: `src/types/messages.ts`, `src/types/user.ts`
 - Unit tests: 3 new tests (`chatApi` success, server error, non-JSON fallback)
 
+## Phase 6 — Insight Engine & Dashboard (Done)
+
+- Insight engine in `server/services/insightEngine.ts`: 30-entry window, trigger-outcome correlation, confidence formula, upsert with `$setOnInsert` for `firstObserved`, stale-insight pruning (30 days)
+- Dashboard utilities in `server/services/dashboardUtils.ts`: daily sentiment aggregation, streak calculation, average sentiment, most-common-trigger lookup
+- `generateInsights(userId)` invoked fire-and-forget from `POST /api/chat` after enrichment — never blocks chat response
+- Dashboard API in `server/routes/dashboard.ts` mounted at `/api/dashboard`:
+  - `GET /timeline` — last 30 days grouped by date, averaged sentiment, union themes/triggers, no `rawText`
+  - `GET /insights` — `confidence >= 0.4`, max 10, sorted descending
+  - `GET /summary` — total entries, average sentiment, most common trigger, streak days, last entry date
+- Frontend API in `src/api/dashboardApi.ts`: typed `fetchTimeline`, `fetchInsights`, `fetchSummary` with `DashboardApiError`
+- Dashboard page at `/dashboard` (lazy-loaded): parallel `Promise.all` data load, skeleton loading, retry-able error state, empty state when `< 5` entries
+- Components: `SummaryCard`, `TimelineChart` (Recharts + `date-fns`, accessible `figure` + `sr-only` table), `InsightCard` (confidence progressbar), `SkeletonLoader`
+- `StickyHeader` dashboard nav link; mood labels map `>= 0.3` → Positive, `<= -0.3` → Stressed, else Neutral
+- Dependencies added: `recharts`, `date-fns`
+- Unit tests: 22 new tests (confidence formula, trigger correlation, daily aggregation, streak, dashboard API helpers)
+
 ## Validation Notes
 
 - `npm run dev` starts Vite (5173) + Express (3001) without errors
@@ -70,7 +86,7 @@
 - DeepSeek health requires a valid `DEEPSEEK_API_KEY` in `.env` (placeholder fails as expected)
 - Temp MongoDB container (`wellness-mongo-test`) started on port 27017 for local dev
 - `npm run lint` passes with zero errors
-- `npm test` passes (44 tests)
+- `npm test` passes (66 tests)
 - `npm run build` succeeds
 - Live `POST /api/chat` testing requires valid `DEEPSEEK_API_KEY` and an onboarded user (`POST /api/users` first)
 - Multi-turn context: second chat message should reference prior turn without re-stating it (verify with Redis running)
@@ -78,8 +94,12 @@
 - Journal UI: opening greeting appears after onboarding; send shows thinking indicator then AI reply
 - Voice input: mic button hidden in browsers without `SpeechRecognition`; supported browsers append transcript to textarea
 - Crisis banner: verify with distress-level responses (level 2 dismissible, level 3 persistent)
-- Responsive layout: verify landing and journal at 375px, 768px, and 1280px
+- Responsive layout: verify landing, journal, and dashboard at 375px, 768px, and 1280px
+- Dashboard: three API calls fire in parallel on `/dashboard` load (Network tab)
+- Dashboard timeline: ascending date order, daily sentiment averaging, chart placeholder when `< 3` data points
+- Insight cards: `aria-valuenow` matches confidence percentage; patterns appear after recurring triggers with negative sentiment
+- Insight generation: `POST /api/chat` response is not delayed by background insight processing
 
 ## Next
 
-- Phase 6: Insight Engine & Dashboard (`/dashboard` route, sentiment trends, theme cards)
+- Phase 7: Polish, Performance & Deployment (lazy routes, bundle optimization, production hardening)
