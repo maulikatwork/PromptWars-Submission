@@ -67,7 +67,7 @@ export default function TimelineChart({ entries }: TimelineChartProps) {
     return () => mediaQuery.removeEventListener('change', updateHeight)
   }, [])
 
-  if (entries.length < 3) {
+  if (entries.length === 0) {
     return (
       <p className="glass-card flex h-48 items-center justify-center border-dashed border-white/60 px-4 text-center text-sm text-neutral-600 md:h-64">
         Keep journaling — your emotional timeline will appear after a few more entries.
