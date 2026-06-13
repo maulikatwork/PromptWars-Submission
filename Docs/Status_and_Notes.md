@@ -50,6 +50,19 @@
 - `429` with `Retry-After: 60` when rate limit exceeded
 - Unit tests: 12 new tests (session trim/order, malformed entry skip, profile cache hit/miss/fallback, rate limit blocking)
 
+## Phase 5 — Conversational Interface (Done)
+
+- Landing page completed: mobile-first layout, privacy/crisis cards, accessible CTA to `/journal`
+- Onboarding modal completed: field-level validation, focus on mount, submit disabled until name + exam filled, privacy note, `POST /api/users` + `localStorage` persistence
+- Journal chat UI in `src/pages/JournalPage.tsx`: full-viewport layout (`100dvh`), sticky header, scrollable message list, opening greeting from profile
+- Components: `MessageBubble`, `ThinkingIndicator`, `InputBar`, `CrisisBanner`, `StickyHeader`
+- Voice input via `useSpeechRecognition` hook: browser-native Web Speech API (`en-IN`), mic hidden when unsupported, inline error on microphone failure
+- `src/api/chatApi.ts`: typed `sendMessage` wrapper with `ChatApiError` on non-2xx
+- Chat flow: append user message → `POST /api/chat` → append assistant reply; loading state disables send; inline error on failure
+- Crisis banner shown at `distressLevel >= 2`; dismissible at level 2, persistent at level 3
+- Shared types: `src/types/messages.ts`, `src/types/user.ts`
+- Unit tests: 3 new tests (`chatApi` success, server error, non-JSON fallback)
+
 ## Validation Notes
 
 - `npm run dev` starts Vite (5173) + Express (3001) without errors
@@ -57,12 +70,16 @@
 - DeepSeek health requires a valid `DEEPSEEK_API_KEY` in `.env` (placeholder fails as expected)
 - Temp MongoDB container (`wellness-mongo-test`) started on port 27017 for local dev
 - `npm run lint` passes with zero errors
-- `npm test` passes (41 tests)
+- `npm test` passes (44 tests)
 - `npm run build` succeeds
 - Live `POST /api/chat` testing requires valid `DEEPSEEK_API_KEY` and an onboarded user (`POST /api/users` first)
 - Multi-turn context: second chat message should reference prior turn without re-stating it (verify with Redis running)
 - Rate limit: >20 requests/minute from same `X-User-ID` returns `429` with `Retry-After: 60`
+- Journal UI: opening greeting appears after onboarding; send shows thinking indicator then AI reply
+- Voice input: mic button hidden in browsers without `SpeechRecognition`; supported browsers append transcript to textarea
+- Crisis banner: verify with distress-level responses (level 2 dismissible, level 3 persistent)
+- Responsive layout: verify landing and journal at 375px, 768px, and 1280px
 
 ## Next
 
-- Phase 5: Conversational Interface (full chat UI with text + voice input, mobile-first)
+- Phase 6: Insight Engine & Dashboard (`/dashboard` route, sentiment trends, theme cards)
