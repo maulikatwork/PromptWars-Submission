@@ -9,6 +9,7 @@ import healthRouter from './routes/health'
 import usersRouter from './routes/users'
 import journalsRouter from './routes/journals'
 import insightsRouter from './routes/insights'
+import chatRouter from './routes/chat'
 
 const app = express()
 const PORT = process.env.PORT || 3001
@@ -20,6 +21,7 @@ app.use('/api', healthRouter)
 app.use('/api', usersRouter)
 app.use('/api', journalsRouter)
 app.use('/api', insightsRouter)
+app.use('/api', chatRouter)
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../../dist')))

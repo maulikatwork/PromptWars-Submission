@@ -30,6 +30,17 @@
 - `PRIVACY.md` added at project root
 - Unit tests: 20 passing (validation rules, error handler, UUID checks)
 
+## Phase 3 — Conversational Core (Done)
+
+- System prompts in `server/llm/prompts.ts`: `PERSONA_SYSTEM_PROMPT`, `EXTRACTOR_SYSTEM_PROMPT` with student context injection
+- Shared LLM types in `server/types/llm.ts`: `SentimentResult`, `ConversationMessage`
+- LLM pipeline in `server/llm/pipeline.ts`: parallel DeepSeek calls via `Promise.all`, JSON parse fallback, sentiment clamping, Journal update
+- Crisis guardrail in `server/llm/guardrail.ts`: appends Tele-MANAS/KIRAN block at `distressLevel: 3`; logs moderate distress at level 2
+- `POST /api/chat` in `server/routes/chat.ts`: validates `rawText`, loads user profile, creates Journal, runs pipeline, returns `{ reply, entryId, distressLevel }`
+- DeepSeek failures mapped to `503 { error: "AI service temporarily unavailable" }` — no internal details exposed
+- Conversation history placeholder (`[]`) — Redis session wiring deferred to Phase 4
+- Unit tests: 9 new tests (JSON parse fallback, sentiment/distress clamping, crisis block injection)
+
 ## Validation Notes
 
 - `npm run dev` starts Vite (5173) + Express (3001) without errors
@@ -37,9 +48,10 @@
 - DeepSeek health requires a valid `DEEPSEEK_API_KEY` in `.env` (placeholder fails as expected)
 - Temp MongoDB container (`wellness-mongo-test`) started on port 27017 for local dev
 - `npm run lint` passes with zero errors
-- `npm test` passes (20 tests)
+- `npm test` passes (29 tests)
 - `npm run build` succeeds
+- Live `POST /api/chat` testing requires valid `DEEPSEEK_API_KEY` and an onboarded user (`POST /api/users` first)
 
 ## Next
 
-- Phase 3: Conversational Core (DeepSeek pipeline: empathetic reply + sentiment extraction)
+- Phase 4: Session Memory (Redis conversation history for multi-turn chat)
