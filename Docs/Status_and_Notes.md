@@ -79,6 +79,22 @@
 - Dependencies added: `recharts`, `date-fns`
 - Unit tests: 22 new tests (confidence formula, trigger correlation, daily aggregation, streak, dashboard API helpers)
 
+## Phase 7 — Safety, Hardening & Polish (Done)
+
+- Pipeline guardrail tests in `server/llm/pipeline.test.ts`: 21 tests with `vi.mock` DeepSeek — distress classification, crisis block (Tele-MANAS 14416, KIRAN 1800-599-0019), malformed JSON fallback, non-numeric distress clamping, dual-call failure propagation
+- Security hardening in `server/index.ts`: `helmet` CSP + default security headers; CORS locked to `ALLOWED_ORIGIN` in production via origin callback (rejects unlisted origins)
+- `.env.example` updated with `ALLOWED_ORIGIN`; secret hygiene audit — no hardcoded keys outside `process.env`
+- Dependency audit: critical `shell-quote` fixed via `concurrently@10`; remaining 6 high findings are dev-only transitive (`esbuild` via Vite/Vitest — no production runtime impact)
+- Test suite expanded to 83 passing tests across 14 files:
+  - `src/utils/sentimentLabel.test.ts` — mood label thresholds
+  - `src/hooks/useSpeechRecognition.test.ts` — `isSupported: false` when API absent
+  - `src/components/OnboardingModal.test.tsx` — submit disabled with empty name
+- UI polish: global `prefers-reduced-motion` in `src/index.css`; onboarding backdrop/panel animations; send button `active:scale-95`; skeleton shimmer; journal send error above input with 5s auto-dismiss and `role="alert"`; dashboard/insight empty states; `aria-live="polite"` on message list; iOS `viewport-fit=cover`
+- `sentimentToMoodLabel` extracted to `src/utils/sentimentLabel.ts`
+- MongoDB compound indices confirmed programmatically on startup in `server/db/mongoose.ts`
+- `DashboardPage` lazy-loaded — Recharts isolated in separate chunk (119 KB gzip); initial bundle 137 KB gzip (under 250 KB threshold)
+- README updated with production deployment and `ALLOWED_ORIGIN` instructions
+
 ## Validation Notes
 
 - `npm run dev` starts Vite (5173) + Express (3001) without errors
@@ -86,8 +102,10 @@
 - DeepSeek health requires a valid `DEEPSEEK_API_KEY` in `.env` (placeholder fails as expected)
 - Temp MongoDB container (`wellness-mongo-test`) started on port 27017 for local dev
 - `npm run lint` passes with zero errors
-- `npm test` passes (66 tests)
+- `npm test` passes (83 tests)
 - `npm run build` succeeds
+- `curl -I http://localhost:3001/api/health` — Helmet headers present (`Content-Security-Policy`, `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`)
+- Production CORS: requests from unlisted origins rejected; matching `ALLOWED_ORIGIN` permitted
 - Live `POST /api/chat` testing requires valid `DEEPSEEK_API_KEY` and an onboarded user (`POST /api/users` first)
 - Multi-turn context: second chat message should reference prior turn without re-stating it (verify with Redis running)
 - Rate limit: >20 requests/minute from same `X-User-ID` returns `429` with `Retry-After: 60`
@@ -99,7 +117,9 @@
 - Dashboard timeline: ascending date order, daily sentiment averaging, chart placeholder when `< 3` data points
 - Insight cards: `aria-valuenow` matches confidence percentage; patterns appear after recurring triggers with negative sentiment
 - Insight generation: `POST /api/chat` response is not delayed by background insight processing
+- Send error: displays above input bar, auto-dismisses after 5 seconds
+- Reduced motion: animations suppressed when `prefers-reduced-motion: reduce` is set in OS
 
 ## Next
 
-- Phase 7: Polish, Performance & Deployment (lazy routes, bundle optimization, production hardening)
+- Demo-ready — all 7 phases complete; deploy with `npm run build && npm start` and set production env vars (`NODE_ENV`, `ALLOWED_ORIGIN`, `MONGODB_URI`, `REDIS_URL`, `DEEPSEEK_API_KEY`)

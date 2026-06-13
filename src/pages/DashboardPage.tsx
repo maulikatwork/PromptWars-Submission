@@ -106,10 +106,26 @@ export default function DashboardPage() {
 
             {showEmptyState && (
               <section className="rounded-xl border border-dashed border-neutral-300 bg-white p-6 text-center">
-                <p className="text-base font-medium text-neutral-800">Keep journaling</p>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  className="mx-auto h-12 w-12 text-neutral-300"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M3 13.5V6.75A2.25 2.25 0 0 1 5.25 4.5h13.5A2.25 2.25 0 0 1 21 6.75v6.75M3 13.5l3.6 2.7a1.5 1.5 0 0 0 1.8 0L12 13.5l3.6 2.7a1.5 1.5 0 0 0 1.8 0L21 13.5M3 13.5V18a1.5 1.5 0 0 0 1.5 1.5h15A1.5 1.5 0 0 0 21 18v-4.5"
+                  />
+                </svg>
+                <p className="mt-4 text-base font-medium text-neutral-800">
+                  Journal for a few days to unlock your patterns.
+                </p>
                 <p className="mt-2 text-sm text-neutral-600">
-                  Your dashboard insights unlock after {MIN_ENTRIES_FOR_INSIGHTS} entries. You
-                  have {data.summary.totalEntries} so far.
+                  You have {data.summary.totalEntries} of {MIN_ENTRIES_FOR_INSIGHTS} entries so far.
                 </p>
                 <Link
                   to="/journal"

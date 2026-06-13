@@ -14,6 +14,9 @@ import {
   type UserProfile,
 } from '../types/user'
 
+const SEND_ERROR_MESSAGE =
+  "Couldn't send your message. Check your connection and try again."
+
 function createOpeningMessage(profile: UserProfile): Message {
   return {
     id: crypto.randomUUID(),
@@ -52,6 +55,20 @@ export default function JournalPage() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, isLoading])
+
+  useEffect(() => {
+    if (!sendError) {
+      return
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setSendError(null)
+    }, 5000)
+
+    return () => {
+      window.clearTimeout(timeoutId)
+    }
+  }, [sendError])
 
   const handleOnboardingComplete = (nextProfile: UserProfile) => {
     localStorage.setItem(USER_PROFILE_KEY, JSON.stringify(nextProfile))
@@ -96,10 +113,8 @@ export default function JournalPage() {
       if (response.distressLevel >= 2) {
         setIsBannerDismissed(false)
       }
-    } catch (error) {
-      const message =
-        error instanceof Error ? error.message : 'Something went wrong. Please try again.'
-      setSendError(message)
+    } catch {
+      setSendError(SEND_ERROR_MESSAGE)
     } finally {
       setIsLoading(false)
     }
@@ -120,16 +135,15 @@ export default function JournalPage() {
       {profile && <StickyHeader studentName={profile.name} />}
 
       <main className="flex-1 overflow-y-auto">
-        <div className="mx-auto flex max-w-2xl flex-col gap-4 px-4 py-4 lg:max-w-2xl">
+        <div
+          className="mx-auto flex max-w-2xl flex-col gap-4 px-4 py-4 lg:max-w-2xl"
+          aria-live="polite"
+          aria-relevant="additions"
+        >
           {messages.map((message) => (
             <MessageBubble key={message.id} message={message} />
           ))}
           {isLoading && <ThinkingIndicator />}
-          {sendError && (
-            <p className="text-sm text-red-600" role="alert">
-              {sendError}
-            </p>
-          )}
           <div ref={messagesEndRef} />
         </div>
       </main>
@@ -139,6 +153,15 @@ export default function JournalPage() {
           distressLevel={distressLevel}
           onDismiss={distressLevel === 2 ? () => setIsBannerDismissed(true) : undefined}
         />
+      )}
+
+      {sendError && (
+        <p
+          className="mx-auto max-w-2xl px-4 pb-2 text-sm text-red-600"
+          role="alert"
+        >
+          {sendError}
+        </p>
       )}
 
       {profile && (

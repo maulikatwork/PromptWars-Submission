@@ -35,8 +35,16 @@ export default {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
       },
       keyframes: {
+        fadeIn: {
+          from: { opacity: '0' },
+          to: { opacity: '1' },
+        },
         fadeInUp: {
           from: { opacity: '0', transform: 'translateY(8px)' },
+          to: { opacity: '1', transform: 'translateY(0)' },
+        },
+        slideUp: {
+          from: { opacity: '0', transform: 'translateY(16px)' },
           to: { opacity: '1', transform: 'translateY(0)' },
         },
         shimmer: {
@@ -45,7 +53,9 @@ export default {
         },
       },
       animation: {
+        fadeIn: 'fadeIn 0.2s ease-out',
         fadeInUp: 'fadeInUp 0.2s ease-out',
+        slideUp: 'slideUp 0.25s ease-out',
         shimmer: 'shimmer 1.5s infinite',
       },
     },

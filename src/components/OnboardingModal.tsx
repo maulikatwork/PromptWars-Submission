@@ -93,12 +93,12 @@ export default function OnboardingModal({ onComplete }: OnboardingModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 px-4"
+      className="fixed inset-0 z-50 flex animate-fadeIn items-center justify-center bg-black/30 px-4"
       role="dialog"
       aria-modal="true"
       aria-labelledby="onboarding-title"
     >
-      <div className="mx-4 w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl">
+      <div className="mx-4 w-full max-w-sm animate-slideUp rounded-2xl bg-white p-6 shadow-xl">
         <h2 id="onboarding-title" className="text-xl font-semibold text-neutral-900">
           Tell us a little about your prep
         </h2>

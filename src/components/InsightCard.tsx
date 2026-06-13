@@ -44,7 +44,7 @@ export default function InsightCard({ insight }: InsightCardProps) {
 export function InsightEmptyState() {
   return (
     <p className="rounded-xl border border-dashed border-neutral-300 bg-white p-6 text-center text-sm text-neutral-600">
-      Your patterns will appear here as you journal more.
+      Your patterns will surface here as you journal more.
     </p>
   )
 }

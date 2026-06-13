@@ -1,6 +1,7 @@
 import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
+import helmet from 'helmet'
 import path from 'path'
 import { connectDatabase } from './db/mongoose'
 import './cache/redis'
@@ -15,8 +16,46 @@ import dashboardRouter from './routes/dashboard'
 const app = express()
 const PORT = process.env.PORT || 3001
 
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        imgSrc: ["'self'", 'data:'],
+        connectSrc: ["'self'"],
+        fontSrc: ["'self'", 'https://fonts.gstatic.com'],
+      },
+    },
+  }),
+)
+
 app.use(express.json({ limit: '10kb' }))
-app.use(cors({ origin: 'http://localhost:5173' }))
+app.use(
+  cors({
+    origin:
+      process.env.NODE_ENV === 'production'
+        ? (origin, callback) => {
+            const allowedOrigin = process.env.ALLOWED_ORIGIN
+
+            if (!allowedOrigin) {
+              callback(null, false)
+              return
+            }
+
+            if (!origin || origin === allowedOrigin) {
+              callback(null, true)
+              return
+            }
+
+            callback(null, false)
+          }
+        : 'http://localhost:5173',
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'X-User-ID'],
+  }),
+)
 
 app.use('/api', healthRouter)
 app.use('/api', usersRouter)

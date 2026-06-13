@@ -30,6 +30,17 @@ npm run dev
 - Frontend: http://localhost:5173
 - API: http://localhost:3001/api
 
+## Production
+
+Set `NODE_ENV=production`, `ALLOWED_ORIGIN` to your deployed frontend URL, and run:
+
+```bash
+npm run build
+npm start
+```
+
+Express serves the compiled `dist/` frontend and all `/api/*` routes on a single port.
+
 ## Redis Key Prefixing
 
 This project uses a shared Redis instance. All keys are namespaced via `REDIS_KEY_PREFIX` (default: `promptwars:foundation:`).

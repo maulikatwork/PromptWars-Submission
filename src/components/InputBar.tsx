@@ -157,7 +157,7 @@ export default function InputBar({ inputText, onInputChange, onSend, isLoading }
           onClick={onSend}
           disabled={!canSend}
           aria-label="Send message"
-          className="flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-xl bg-primary-500 text-white transition hover:bg-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 disabled:cursor-not-allowed disabled:opacity-60"
+          className="flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-xl bg-primary-500 text-white transition-transform duration-75 hover:bg-primary-600 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 disabled:cursor-not-allowed disabled:opacity-60"
         >
           <SendIcon />
         </button>

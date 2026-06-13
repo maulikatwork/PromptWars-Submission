@@ -93,17 +93,7 @@ export async function fetchSummary(userId: string): Promise<SummaryResponse> {
   return parseDashboardResponse<SummaryResponse>(response)
 }
 
-export function sentimentToMoodLabel(score: number): string {
-  if (score >= 0.3) {
-    return 'Positive'
-  }
-
-  if (score <= -0.3) {
-    return 'Stressed'
-  }
-
-  return 'Neutral'
-}
+export { sentimentToMoodLabel } from '../utils/sentimentLabel'
 
 export function formatLastEntryLabel(lastEntryDate: string | null): string {
   if (!lastEntryDate) {

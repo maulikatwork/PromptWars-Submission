@@ -1,5 +1,7 @@
 import mongoose from 'mongoose'
 import { DatabaseConnectionError } from './errors'
+import { Insight } from '../models/Insight'
+import { Journal } from '../models/Journal'
 
 export async function connectDatabase(): Promise<void> {
   const mongoUri = process.env.MONGODB_URI
@@ -10,6 +12,8 @@ export async function connectDatabase(): Promise<void> {
 
   try {
     await mongoose.connect(mongoUri)
+    await Journal.collection.createIndex({ userId: 1, createdAt: -1 })
+    await Insight.collection.createIndex({ userId: 1, confidence: -1 })
     console.log('MongoDB connected')
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown MongoDB connection error'
